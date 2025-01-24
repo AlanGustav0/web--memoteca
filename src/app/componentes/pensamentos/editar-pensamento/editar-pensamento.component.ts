@@ -1,7 +1,8 @@
 import { Router, ActivatedRoute } from '@angular/router';
 import { PensamentoService } from './../pensamento.service';
-import { Pensamento } from './../pensamento';
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { smallCharactersValidator } from 'src/app/compartilhado/validators/smallCharactersValidator';
 
 @Component({
   selector: 'app-editar-pensamento',
@@ -10,28 +11,43 @@ import { Component, OnInit } from '@angular/core';
 })
 export class EditarPensamentoComponent implements OnInit {
 
-  pensamento: Pensamento = {
-    id: 0,
-    conteudo: '',
-    autoria: '',
-    modelo: ''
-  }
+  formulario!: FormGroup;
 
   constructor(
     private service: PensamentoService,
     private router: Router,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private _formBuilder: FormBuilder
   ) { }
 
   ngOnInit(): void {
-    const id = this.route.snapshot.paramMap.get('id')
-    this.service.buscarPorId(parseInt(id!)).subscribe((pensamento) => {
-      this.pensamento = pensamento
-    })
+    this.formulario = this._formBuilder.group({
+          conteudo: [
+            '',
+            Validators.compose([
+              Validators.required,
+              Validators.pattern(/(.|\s)*\S(.|\s)*/),
+            ]),
+          ],
+          autoria: [
+            '',
+            Validators.compose([Validators.required, Validators.minLength(3),smallCharactersValidator]),
+          ],
+          modelo: ['modelo1'],
+        });
+
+    if(this.formulario.valid){
+      const id = this.route.snapshot.paramMap.get('id')
+      this.service.buscarPorId(parseInt(id!)).subscribe((pensamento) => {
+        this.formulario.patchValue(pensamento);
+      })
+    }
   }
 
   editarPensamento() {
-    this.service.editar(this.pensamento).subscribe(() => {
+    const pensamento = this.formulario.getRawValue();
+
+    this.service.editar(pensamento).subscribe(() => {
       this.router.navigate(['/listarPensamento'])
     })
 
@@ -39,6 +55,18 @@ export class EditarPensamentoComponent implements OnInit {
 
   cancelar() {
     this.router.navigate(['/listarPensamento'])
+  }
+
+  habilitarBotao(): string {
+    let estiloBotao;
+
+    if (this.formulario.valid) {
+      estiloBotao = 'botao';
+    }else{
+      estiloBotao = 'botao__desabilitado';
+    }
+
+    return estiloBotao;
   }
 
 }
