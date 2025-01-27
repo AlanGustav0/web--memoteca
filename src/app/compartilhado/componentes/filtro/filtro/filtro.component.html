@@ -1,0 +1,10 @@
+<div class="buscar-pensamentos">
+  <input
+    type="search"
+    class="filtro"
+    placeholder="O que você procura?"
+    [(ngModel)]="filtro"
+    (keyup)="carregarFiltro()"
+    autofocus
+  />
+</div>
