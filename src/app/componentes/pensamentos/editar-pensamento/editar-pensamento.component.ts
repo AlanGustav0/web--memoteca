@@ -47,6 +47,7 @@ export class EditarPensamentoComponent implements OnInit {
   editarPensamento() {
     const pensamento = this.formulario.getRawValue();
 
+    pensamento.id = this.route.snapshot.paramMap.get('id');
     this.service.editar(pensamento).subscribe(() => {
       this.router.navigate(['/listarPensamento'])
     })
