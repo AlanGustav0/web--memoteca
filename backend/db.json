@@ -4,30 +4,35 @@
       "id": 1,
       "conteudo": "We are the champions my friends!!!",
       "autoria": "Queen",
-      "modelo": "modelo1"
+      "modelo": "modelo1",
+      "favorito": true
     },
     {
       "conteudo": "aaaaa",
       "autoria": "aaaa",
       "modelo": "modelo1",
+      "favorito": false,
       "id": 2
     },
     {
       "id": 3,
       "conteudo": "Continue a codar... continue a codar...",
       "autoria": "Dory programadora",
-      "modelo": "modelo3"
+      "modelo": "modelo3",
+      "favorito": false
     },
     {
       "conteudo": "aaaa",
       "autoria": "sssss",
       "modelo": "modelo1",
+      "favorito": false,
       "id": 4
     },
     {
       "conteudo": "Estou pensando",
       "autoria": "angular",
       "modelo": "modelo1",
+      "favorito": false,
       "id": 5
     }
   ]
